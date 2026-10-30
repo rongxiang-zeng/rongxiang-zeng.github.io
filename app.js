@@ -76,3 +76,66 @@ document.querySelectorAll('.video-preview').forEach(button => {
     iframe.focus();
   });
 });
+
+// A small, decorative spatial graphic. No user data or external requests.
+(() => {
+  const canvas = document.getElementById('research-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let width = 0, height = 0, frame = 0, visible = true, phase = 0, last = 0;
+  const corners = [[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1],[-1,-1,1],[1,-1,1],[1,1,1],[-1,1,1]];
+  const edges = [[0,1],[1,2],[2,3],[3,0],[4,5],[5,6],[6,7],[7,4],[0,4],[1,5],[2,6],[3,7]];
+  function draw(t) {
+    ctx.clearRect(0, 0, width, height);
+    const cx = width * .53, cy = height * .5, scale = height * .255;
+    const yaw = .45 + t * .22, pitch = -.35 + Math.sin(t * .25) * .12;
+    const project = ([x,y,z]) => {
+      const rx = x * Math.cos(yaw) + z * Math.sin(yaw);
+      const rz = -x * Math.sin(yaw) + z * Math.cos(yaw);
+      const ry = y * Math.cos(pitch) - rz * Math.sin(pitch);
+      const depth = y * Math.sin(pitch) + rz * Math.cos(pitch);
+      const perspective = 4 / (4 + depth * .35);
+      return [cx + rx * scale * perspective, cy + ry * scale * perspective, depth];
+    };
+    const points = corners.map(project);
+    ctx.lineWidth = 1;
+    edges.forEach(([a,b]) => {
+      ctx.strokeStyle = `rgba(32,91,84,${.27 + (points[a][2] + points[b][2] + 3) * .06})`;
+      ctx.beginPath();ctx.moveTo(points[a][0],points[a][1]);ctx.lineTo(points[b][0],points[b][1]);ctx.stroke();
+    });
+    for (let i = 0; i < 5; i++) {
+      const angle = i * Math.PI * 2 / 5 + t * .15;
+      const x = cx + Math.cos(angle) * width * .40;
+      const y = cy + Math.sin(angle) * height * .33;
+      const p = points[(i * 3) % points.length];
+      ctx.strokeStyle = 'rgba(32,91,84,.13)';ctx.setLineDash([2,4]);
+      ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(p[0],p[1]);ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle = 'rgba(32,91,84,.48)';ctx.beginPath();ctx.arc(x,y,2,0,Math.PI*2);ctx.fill();
+      const progress = (t * .16 + i * .21) % 1;
+      ctx.fillStyle = 'rgba(32,91,84,.52)';ctx.beginPath();ctx.arc(x+(p[0]-x)*progress,y+(p[1]-y)*progress,1.4,0,Math.PI*2);ctx.fill();
+    }
+    points.forEach(([x,y,z]) => {
+      ctx.fillStyle = '#f9f9f6';ctx.beginPath();ctx.arc(x,y,3.2,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle = `rgba(32,91,84,${.55+(z+2)*.09})`;ctx.beginPath();ctx.arc(x,y,2.1,0,Math.PI*2);ctx.fill();
+    });
+  }
+  function tick(now) {
+    if (last) phase += Math.min(now-last,50)/1000;
+    last=now;draw(phase);frame=requestAnimationFrame(tick);
+  }
+  function sync() {
+    cancelAnimationFrame(frame);last=0;draw(phase);
+    if (visible && !document.hidden && !reduced.matches) frame=requestAnimationFrame(tick);
+  }
+  function resize() {
+    const box=canvas.getBoundingClientRect(), dpr=Math.min(window.devicePixelRatio||1,2);
+    width=box.width;height=box.height;canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);
+    ctx.setTransform(dpr,0,0,dpr,0,0);draw(phase);
+  }
+  new ResizeObserver(resize).observe(canvas);
+  new IntersectionObserver(entries=>{visible=entries[0].isIntersecting;sync();}).observe(canvas);
+  reduced.addEventListener('change',sync);document.addEventListener('visibilitychange',sync);
+  resize();sync();
+})();

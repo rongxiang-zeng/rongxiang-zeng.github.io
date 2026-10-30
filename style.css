@@ -79,3 +79,7 @@ footer{font-size:12px}
 @media(max-width:760px){.intro-title{font-size:33px}.ongoing-project h3{font-size:21px}}
 
 .section-icon{display:inline-block;font:normal 22px/1.2 var(--sans);vertical-align:2px;margin-right:5px;letter-spacing:0}.topic-icon{font:normal 16px/1.1 var(--sans);vertical-align:-1px;letter-spacing:0;margin-right:3px}@media(max-width:760px){.section-icon{font-size:20px}.topic-icon{font-size:14px}.topic-line{gap:8px 12px}.topic-line span+span:before{display:none}}
+
+.about-heading{display:flex;align-items:center;justify-content:space-between;gap:24px;margin:-10px 0 12px;min-height:108px}.about-heading .intro-title{margin:0}.research-motion{width:220px;height:108px;flex-shrink:0;position:relative}.research-motion canvas{display:block;width:100%;height:100%}.small-dot{box-shadow:0 0 0 0 rgba(32,91,84,.22);animation:research-pulse 3s ease-out infinite}@keyframes research-pulse{0%,100%{box-shadow:0 0 0 0 rgba(32,91,84,.18)}55%{box-shadow:0 0 0 7px rgba(32,91,84,0)}}
+@media(max-width:760px){.about-heading{gap:12px;min-height:84px;margin-bottom:12px}.research-motion{width:145px;height:84px}}
+@media(prefers-reduced-motion:reduce){.small-dot{animation:none}}
