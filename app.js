@@ -31,7 +31,8 @@ function revealLinkedProject() {
   const project = document.getElementById(location.hash.slice(1));
   if (!project) return;
   showResearch('all');
-  project.querySelector('details').open = true;
+  const details = project.querySelector('details');
+  if (details) details.open = true;
   requestAnimationFrame(() => project.scrollIntoView({block:'start'}));
 }
 window.addEventListener('hashchange', revealLinkedProject);

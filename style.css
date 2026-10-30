@@ -69,3 +69,11 @@ footer{font-size:12px}
 .video-external{display:inline-block;font-size:12px;margin-top:7px}
 @media(max-width:1000px) and (min-width:761px){.page-layout{grid-template-columns:205px minmax(0,1fr);gap:35px}.profile h1{font-size:27px}}
 @media(max-width:760px){.page-layout{display:block;padding-top:26px}.profile h1{font-size:26px;letter-spacing:-.5px}.profile-role,.profile-institution{font-size:12px}.profile-link{font-size:13px}.intro-title{font-size:38px;line-height:1.15;letter-spacing:-1px}.intro-copy p{font-size:16px;line-height:1.7}.eyebrow{font-size:10px;letter-spacing:1px}.phd-note p{font-size:14.5px}.topic-line{font-size:10px;gap:5px 12px}.topic-line span+span:before{margin-right:12px}.section-heading h2{font-size:28px}.section-heading>a{font-size:12px}.research-item h3{font-size:24px}.project-summary{font-size:15px}.affiliation{font-size:12px}.research-item .eyebrow{font-size:10px}.news-list time{font-size:12px}.news-list p{font-size:14px}.filter-row button{font-size:12px;padding:7px 9px}.publication h3{font-size:21px}.project-figure>a{padding:7px}.project-figure figcaption{font-size:11px}.email-address{font-size:16px}.contact-section h2{font-size:31px}.video-play{width:45px;height:45px;font-size:19px}}
+
+/* Showcase: short summaries, compact media, and discreet ongoing work. */
+.intro-title{font-size:40px;letter-spacing:-1px;margin-bottom:20px}
+.about-section{margin-bottom:44px}.intro-copy p{margin-bottom:13px}
+.public-project .project-figure{max-width:560px}.public-project .project-figure img{max-height:260px}
+.public-project .project-video{max-width:560px}.public-project .project-figure figcaption{font-size:11px}
+.ongoing-project{padding:18px 0}.ongoing-project h3{font-size:22px;margin-bottom:6px}.ongoing-project .affiliation{margin-bottom:0}
+@media(max-width:760px){.intro-title{font-size:33px}.ongoing-project h3{font-size:21px}}
