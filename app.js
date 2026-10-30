@@ -139,3 +139,38 @@ document.querySelectorAll('.video-preview').forEach(button => {
   reduced.addEventListener('change',sync);document.addEventListener('visibilitychange',sync);
   resize();sync();
 })();
+
+(() => {
+  const url = 'https://rongxiang-zeng.github.io/';
+  const title = 'Rongxiang Zeng | Robot Learning, World Models & Spatial Intelligence';
+  const dialog = document.getElementById('wechat-dialog');
+  const trigger = document.getElementById('wechat-share');
+  const status = document.getElementById('share-status');
+  trigger.addEventListener('click', () => { dialog.querySelector('.dialog-share-status').textContent=''; dialog.showModal(); });
+  dialog.querySelector('.dialog-close').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', e => {
+    if (e.target !== dialog) return;
+    const r=dialog.getBoundingClientRect();
+    if (e.clientX<r.left || e.clientX>r.right || e.clientY<r.top || e.clientY>r.bottom) dialog.close();
+  });
+  dialog.addEventListener('close', () => trigger.focus());
+  document.querySelectorAll('[data-copy-homepage]').forEach(button => button.addEventListener('click', async () => {
+    const notice=dialog.open ? dialog.querySelector('.dialog-share-status') : status;
+    try {
+      await navigator.clipboard.writeText(url);
+      notice.textContent='Link copied. Ready to share.';
+    } catch {
+      const input=dialog.open ? document.getElementById('wechat-url') : document.getElementById('share-fallback');
+      input.hidden=false;input.focus();input.select();
+      notice.textContent='Select and copy the homepage link.';
+    }
+  }));
+  const native=document.getElementById('native-share');
+  if (navigator.share) {
+    native.hidden=false;
+    native.addEventListener('click', async () => {
+      try { await navigator.share({title,url}); }
+      catch (error) { if (error.name !== 'AbortError') status.textContent='Use Copy link to share this page.'; }
+    });
+  }
+})();
