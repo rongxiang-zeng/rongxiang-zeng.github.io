@@ -77,3 +77,5 @@ footer{font-size:12px}
 .public-project .project-video{max-width:560px}.public-project .project-figure figcaption{font-size:11px}
 .ongoing-project{padding:18px 0}.ongoing-project h3{font-size:22px;margin-bottom:6px}.ongoing-project .affiliation{margin-bottom:0}
 @media(max-width:760px){.intro-title{font-size:33px}.ongoing-project h3{font-size:21px}}
+
+.section-icon{display:inline-block;font:normal 22px/1.2 var(--sans);vertical-align:2px;margin-right:5px;letter-spacing:0}.topic-icon{font:normal 16px/1.1 var(--sans);vertical-align:-1px;letter-spacing:0;margin-right:3px}@media(max-width:760px){.section-icon{font-size:20px}.topic-icon{font-size:14px}.topic-line{gap:8px 12px}.topic-line span+span:before{display:none}}
